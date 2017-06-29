@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time line</title>
+    <script src="../node_modules/angular/angular.min.js"></script>
+    <script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main class="container" ng-app="timeLineApp" ng-controller="timeLineController as timeLine">
+    <div class="container" ng-show="timeLine.isDisconnected">
+        <h1>Timeline App</h1>
+        <h2>Veuillez vous identifier pour accèder à la timeline</h2>
+        <form class="form-inline" name="loginForm" ng-submit="timeLine.loginUser()">
+            <input type="text" class="form-control" placeholder="Votre pseudo ..." required ng-model="timeLine.pseudo">
+            <input type="submit" class="btn btn-primary" value="Rejoindre">
+        </form>
+    </div>
+    <div class="container-fluid well" ng-hide="timeLine.isDisconnected">
+        <h2>Ajoutez une publication</h2>
+        <form class="form-horizontal" name="timeLineForm" ng-submit="timeLine.sendPublication()">
+            <label for="imgUrl"><input class="form-control" type="text" id="imgUrl" ng-model="timeLine.imgUrl"></label>
+            <label for="description"><textarea class="form-control" name="description" id="description" cols="30" rows="10"
+                                               ng-model="timeLine.message"></textarea></label>
+            <input class="btn btn-primary" type="submit" value="Poster">
+        </form>
+    </div>
+    <div class="container" ng-repeat="post in timeLine.publications">
+        <figure>
+            <img src="{{post.imgPost}}" alt="">
+        </figure>
+        <div class="description">
+            <h2>Par {{post.pseudo}}</h2>
+            <p>{{post.sendDate | date:'dd-MM-yyyy'}}</p>
+            <p>{{post.sendMessage}}</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>
